@@ -5,10 +5,10 @@
 		"type": "Desert",
 		"link":["https://www.allrecipes.com/recipe/233674/minute-chocolate-mug-cake/"],
 		"summary":{
-			"prep-time": 10,
-			"cook-time": 5,
-			"additional-time": 5,
-			"total-time": 20,
+			"prep_time": 10,
+			"cook_time": 5,
+			"additional_time": 5,
+			"total_time": 20,
 			"servings":2
 		},
 		"ingredients": [

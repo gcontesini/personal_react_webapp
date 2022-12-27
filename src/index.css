@@ -10,9 +10,11 @@ th, td {
 	vertical-align: top;
 }
 
-/* .summary {
-	vertical-align: top;
-} */
+input {
+	width: 100%;
+	font-size: x-large;
+	padding: 0 30px;
+}
 
 
 .title {
