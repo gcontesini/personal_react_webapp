@@ -22,25 +22,19 @@ function App() {
 			>
 				<thead>
 					<tr>
-						<th>Recipe</th>
-						<th>Type</th>
+						<th> Recipe </th>
+						<th> Type </th>
 						{/* <th>Summary</th> */}
-						<th>Ingredients</th>
-						<th
-							width="200%"
-						>
-							Link
-						</th>
+						<th width="300%">  Ingredients </th>
+						<th width="200%"> Link </th>
 					</tr>
 				</thead>
 				<tbody>
 					{Recipe.map(Recipe => (
-						<tr
-							key={Recipe.id}
-						>
+						<tr key={Recipe.id}>
 							<td>{Recipe.name}</td>
 							<td>{Recipe.type}</td>
-							<td className="summary">
+							{/* <td className="summary">
 							 <td>
 								{Recipe.summary.map( summary => (
 									<tr>
@@ -50,9 +44,12 @@ function App() {
 										<td>items.total-time</td>
 									</tr>
 								))} 
+							</td> */}
+							<td> {Recipe.ingredients.map((ingredients) => 
+								// generate automatic keys
+								<li >{ingredients}</li>
+								)}
 							</td>
-							</td>
-							{/* <td> {Recipe.ingredients.slice(0,2)} </td> */}
 							<td>
 								<a 
 									href={Recipe.link}
