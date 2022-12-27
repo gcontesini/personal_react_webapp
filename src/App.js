@@ -12,13 +12,16 @@ function App() {
 	const [selectedItem, setSelectedItem] = React.useState(null);
 
 	const HandlerIngredients = ({_ingredients}) => (
+
 		<td> {_ingredients.map((_ingredients_) => 
 			<li key={_ingredients_.toString()}> {_ingredients_} </li>
 		)}
 		</td>
+
 	);
 
 	const HandlerSummary = ({_summary}) => (
+
 		<td>
 			<li>Prep time:{_summary.cook_time} min</li>
 			<li>Cook time:{_summary.prep_time} min</li>
@@ -28,30 +31,21 @@ function App() {
 		</td>
 	);
 
-	const HandlerRecipe = ({_recipe, selectRecipe}) => (
-		<tbody>
-		{_recipe
-			.filter((_recipe) => _recipe.name
-			.toLowerCase()
-			.includes( state.toLowerCase() ))
-			.map(_recipe_ => (
-				<tr
-				key={_recipe_.id}
-				// onSelect = {(Recipe.name) => setSelectedItem( Recipe.name ) }
-				>
-					<td>{_recipe_.name}</td>
-					<td>{_recipe_.type}</td>
-					<HandlerSummary _summary={_recipe_.summary}/>
-					<HandlerIngredients key={_recipe_.ingredients.toString()} _ingredients={_recipe_.ingredients}/>
-					<td>
-						<a href={_recipe_.link} target="_blank"> Full Recipe </a>
-					</td>
-					{/* <td >
-						<button onClick={() => setSelectedItem( Recipe.name )} >Select</button>
-					</td> */}
-				</tr>
-			))}
-		</tbody>
+	const HandlerRecipe = ({_recipe, _selectRecipe}) => (
+	
+		<tr>
+			<td>{_recipe.name}</td>
+			<td>{_recipe.type}</td>
+			<HandlerSummary _summary={_recipe.summary}/>
+			<HandlerIngredients key={_recipe.ingredients.toString()} _ingredients={_recipe.ingredients}/>
+			<td>
+				<a href={_recipe.link} target="_blank"> Full Recipe </a>
+			</td>
+			<td >
+				<button onClick={() => _selectRecipe(_recipe)}>Select</button>
+			</td>
+		</tr>
+		
 	);
 
 	return ( 
@@ -69,6 +63,16 @@ function App() {
 				value={state}
 				onChange={( _state ) => setState( _state.target.value )}
 			/>
+			<div>
+				{selectedItem && (
+					<div>
+						<h3>
+							Selected Item: {selectedItem.name}
+							<button onClick={() => setSelectedItem(null)}> Clear Selection </button>
+						</h3>
+					</div>
+				)}
+			</div>
 			<div
 				dyplay={{
 					// display: "grid",
@@ -76,27 +80,31 @@ function App() {
 					gridColumnGap: "1rem",
 				}}
 			>
-				<div>
-					<table 
-						width="150%"
-					>
-						<thead>
-							<tr>
-								<th width="0%"> Recipe </th>
-								<th width="0%"> Type </th>
-								<th width="25%"> Summary</th>
-								<th width="70%"> Ingredients </th>
-								<th width="65%"> Link </th>
-							</tr>
-						</thead>
-						<HandlerRecipe key={Recipe.id} _recipe={Recipe}/>
-					</table>
-				</div>
-				{selectedItem && (
-					<div>
-						<h1>{selectedItem.name}</h1>
-					</div>
-				)}
+				<table width="200%" >
+					<thead>
+						<tr>
+							<th width="0%"> Recipe </th>
+							<th width="0%"> Type </th>
+							<th width="30%"> Summary</th>
+							<th width="70%"> Ingredients </th>
+							<th width="40%"> Link </th>
+							<th width="0%"> Selection </th>
+						</tr>
+					</thead>
+					<tbody>
+						{Recipe
+							.filter((Recipe) => Recipe.name
+							.toLowerCase()
+							.includes( state.toLowerCase() ))
+							.map(_recipe => (
+								<HandlerRecipe
+									key={_recipe.id}
+									_recipe={_recipe}
+									_selectRecipe={(_recipe)=> setSelectedItem(_recipe)}
+								/>
+						))}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);
