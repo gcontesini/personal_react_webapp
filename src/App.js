@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import './App.css';
 
 const HandlerIngredients = ({_ingredients}) => (
@@ -54,9 +54,9 @@ function App() {
 	const [state, setState] = React.useState("");
 	const [selectedItem, setSelectedItem] = React.useState(null);
 
-	React.useEffect( ()=>{
-		fetch()
-	}, [state]	);
+	// React.useEffect( ()=>{
+	// 	fetch()
+	// }, [state]	);
 
 	return ( 
 		<div 

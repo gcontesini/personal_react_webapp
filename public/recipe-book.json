@@ -1,0 +1,76 @@
+[
+	{
+		"id": 1,
+		"name": "Mug Chocolate-Cake",
+		"type": "Desert",
+		"link":["https://www.allrecipes.com/recipe/233674/minute-chocolate-mug-cake/"],
+		"summary":{
+			"prep_time": 10,
+			"cook_time": 5,
+			"additional_time": 5,
+			"total_time": 20,
+			"servings":2
+		},
+		"ingredients": [
+			"1 large egg",
+			"¼ cup white sugar",
+			"2 tablespoons unsweetened cocoa powder",
+			"2 tablespoons butter, melted",
+			"1 tablespoon vegetable oil",
+			"⅛ teaspoon vanilla extract",
+			"1 pinch salt",
+			"2 tablespoons toasted sliced almonds",
+			"1 ½ tablespoons miniature semisweet chocolate chips",
+			"1 tablespoon unsweetened shredded coconut",
+			"3 tablespoons milk",
+			"¼ cup all-purpose flour",
+			"¼ teaspoon baking powder",
+			"¼ teaspoon confectioners' sugar",
+			"¼ teaspoon unsweetened cocoa powder, or as needed"
+		],
+		"procedure":[
+			"Whisk egg, sugar, 2 tablespoons cocoa powder, butter, vegetable oil, vanilla, and salt together in a bowl until smooth. Stir almonds, chocolate chips, and coconut into the mixture; whisk in milk.",
+			"Place flour into a small bowl or measuring cup and stir baking powder into flour with a mini whisk or fork. Pour flour mixture over batter and whisk just until you can't see visible flour.",
+			"Divide batter evenly between 2 coffee cups. Gently tap the cups on a work surface to eliminate air bubbles.",
+			"Place cups into a microwave oven, one at a time. Microwave each cup on high for 45 seconds. Nothing will happen in the first 30 seconds; in the last 10 to 15 seconds, batter will begin to rise in the cup. Cooked cake will collapse after microwaving. Remove from oven and let cool, 2 to 3 minutes.",
+			"Lightly dust each serving with confectioners' sugar and 1/8 teaspoon cocoa. Place each coffee cup onto a saucer and serve. "
+		]
+	},
+	{
+		"id": 2,
+		"name": "Flash Pizza",
+		"type": "Supper",
+		"link":["https://www.allrecipes.com/recipe/8372366/flash-pizza/"],
+		"summary":{
+			"prep-time": 15,
+			"cook-time": 30,
+			"additional-time": 20,
+			"total-time": 65,
+			"servings": 4
+		},
+		"ingredients": [
+			"2 cups self-rising flour, or more as needed",
+			"1 ½ teaspoons white sugar",
+			"2 tablespoons finely grated Parmigiano-Reggiano cheese",
+			"1 tablespoon olive oil",
+			"1 cup plain Greek yogurt",
+			"1 teaspoon water, or as needed (Optional)",
+			"2 tablespoons cornmeal, divided",
+			"⅔ cup pizza sauce, divided",
+			"8 ounces low-moisture mozzarella cheese, shredded",
+			"¼ cup finely grated Parmigiano-Reggiano cheese, divided",
+			"26 slices pepperoni, divided",
+			"2 teaspoons olive oil, divided"
+		],
+		"procedure":[
+			"Preheat the oven to 500 degrees F (260 degrees C).",
+			"Mix 2 cups self-rising flour, sugar, and Parmigiano-Reggiano cheese for dough in a bowl until well combined. Add olive oil and Greek yogurt and mix with a spoon until a shaggy dough forms. Clean off the spoon and mix the dough with your hands until it mostly comes together.",
+			"Transfer dough to a work surface and continue pushing it together until it smooths out. It will be dry; don't be tempted yet to add more liquid. Knead dough until smooth and elastic, 3 to 4 minutes, only adding a teaspoon or two of water or flour if absolutely necessary. Cut dough into two equal pieces.",
+			"Line a rimmed baking sheet with parchment paper and sprinkle 1 tablespoon cornmeal over the surface.",
+			"Roll one piece dough on a lightly floured surface to an 1/8-inch-thick rectangle. Transfer to the prepared baking sheet.",
+			"Top dough with ½ of the pizza sauce, spreading it almost, but not quite all the way, to the edges. Sprinkle ½ of the mozzarella over the sauce, then ½ of the Parmigiano-Reggiano over top. Arrange ½ of the pepperoni slices over the cheese, then drizzle 1 teaspoon oil over top.",
+			"Bake in the center of the preheated oven until crust is beautifully browned and toppings are bubbly, about 15 minutes. Transfer to a wire rack and let sit for 5 minutes before slicing and serving.",
+			"As soon as you remove the pizza from the oven, repeat Steps 3 to 6 to top and bake second pizza. "
+		]
+	}
+]
