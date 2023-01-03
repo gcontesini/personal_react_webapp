@@ -1,14 +1,14 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import './App.css';
+import Recipe from "./recipe-book.json";
 
 const HandlerIngredients = ({_ingredients}) => (
 
-	<td> {_ingredients.map((_ingredients_) => 
+	<td>{_ingredients.map((_ingredients_) => 
 		<li key={_ingredients_.toString()}> {_ingredients_} </li>
-	)}
+		)}
 	</td>
-
 );
 
 const HandlerSummary = ({_summary}) => (
@@ -36,7 +36,7 @@ const HandlerRecipe = ({_recipe, _selectRecipe}) => (
 		<td>{_recipe.name}</td>
 		<td>{_recipe.type}</td>
 		<td>
-			<a href={_recipe.link} target="_blank"> Full Recipe </a>
+			<a href={_recipe.link} target="blank"> Full Recipe </a>
 		</td>
 		<td >
 			<button onClick={() => _selectRecipe(_recipe)}>Select</button>
@@ -55,8 +55,10 @@ function App() {
 	const [selectedItem, setSelectedItem] = React.useState(null);
 
 	// React.useEffect( ()=>{
-	// 	fetch()
-	// }, [state]	);
+	// 	fetch("http://localhost:3001/recipe-book.json")
+	// 	.then( (resp) => resp.json() )
+	// 	.then( (data) => setState(data) );
+	// }, []	);
 
 	return ( 
 		<div 
@@ -100,7 +102,7 @@ function App() {
 				)}
 			</div>
 			<div
-				dyplay={{
+				display={{
 					// display: "grid",
 					gridTemplateColumns: "70% 30%",
 					gridColumnGap: "1rem",
