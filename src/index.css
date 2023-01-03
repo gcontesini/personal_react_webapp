@@ -18,3 +18,7 @@ input {
 .title {
 	text-align: center;
 }
+
+div {
+	margin-bottom: 0.5cm;
+}

@@ -39,7 +39,7 @@
 	{
 		"id": 2,
 		"name": "Flash Pizza",
-		"type": "Supper",
+		"type": "Snack",
 		"link":["https://www.allrecipes.com/recipe/8372366/flash-pizza/"],
 		"summary":{
 			"prep-time": 15,
