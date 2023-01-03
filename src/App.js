@@ -1,60 +1,62 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './App.css';
-import Recipe from "./recipe-book.json";
 
+const HandlerIngredients = ({_ingredients}) => (
+
+	<td> {_ingredients.map((_ingredients_) => 
+		<li key={_ingredients_.toString()}> {_ingredients_} </li>
+	)}
+	</td>
+
+);
+
+const HandlerSummary = ({_summary}) => (
+
+	<td>
+		<li>Prep time:{_summary.cook_time} min</li>
+		<li>Cook time:{_summary.prep_time} min</li>
+		<li>Additional time:{_summary.additional_time} min</li>
+		<li>Total time:{_summary.total_time} min</li>
+		<li>Servings:{_summary.servings}</li>
+	</td>
+);
+
+const HandlerProcedure = ({_procedure}) => (
+
+	<td> {_procedure.map((_procedure) => 
+		<li key={_procedure.toString()}> {_procedure} </li>
+	)}
+	</td>
+);
+
+const HandlerRecipe = ({_recipe, _selectRecipe}) => (
+
+	<tr>
+		<td>{_recipe.name}</td>
+		<td>{_recipe.type}</td>
+		<td>
+			<a href={_recipe.link} target="_blank"> Full Recipe </a>
+		</td>
+		<td >
+			<button onClick={() => _selectRecipe(_recipe)}>Select</button>
+		</td>
+	</tr>
+	
+);
 
 function App() {
 	
 	// React Hook
 	// state is the current state of the hook
 	// setState is the setter of the variable state 
-
+	const [recipe, setRecipe] = React.useState([]);
 	const [state, setState] = React.useState("");
 	const [selectedItem, setSelectedItem] = React.useState(null);
 
-	const HandlerIngredients = ({_ingredients}) => (
-
-		<td> {_ingredients.map((_ingredients_) => 
-			<li key={_ingredients_.toString()}> {_ingredients_} </li>
-		)}
-		</td>
-
-	);
-
-	const HandlerSummary = ({_summary}) => (
-
-		<td>
-			<li>Prep time:{_summary.cook_time} min</li>
-			<li>Cook time:{_summary.prep_time} min</li>
-			<li>Additional time:{_summary.additional_time} min</li>
-			<li>Total time:{_summary.total_time} min</li>
-			<li>Servings:{_summary.servings}</li>
-		</td>
-	);
-
-	const HandlerProcedure = ({_procedure}) => (
-
-		<td> {_procedure.map((_procedure) => 
-			<li key={_procedure.toString()}> {_procedure} </li>
-		)}
-		</td>
-	);
-
-	const HandlerRecipe = ({_recipe, _selectRecipe}) => (
-	
-		<tr>
-			<td>{_recipe.name}</td>
-			<td>{_recipe.type}</td>
-			<td>
-				<a href={_recipe.link} target="_blank"> Full Recipe </a>
-			</td>
-			<td >
-				<button onClick={() => _selectRecipe(_recipe)}>Select</button>
-			</td>
-		</tr>
-		
-	);
+	React.useEffect( ()=>{
+		fetch()
+	}, [state]	);
 
 	return ( 
 		<div 
@@ -116,8 +118,8 @@ function App() {
 						</tr>
 					</thead>
 					<tbody>
-						{Recipe
-							.filter((Recipe) => Recipe.name
+						{recipe
+							.filter((recipe) => recipe.name
 							.toLowerCase()
 							.includes( state.toLowerCase() ))
 							.map(_recipe => (
