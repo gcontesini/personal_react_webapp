@@ -4,107 +4,10 @@ import './App.css';
 // import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Components
-// Export these components to external files
-
-const ComponentIngredients = ({ _ingredients }) => (
-
-	<td>{ _ingredients.map(( _ingredients_ ) => 
-		<li key={ _ingredients_.toString() }> { _ingredients_ } </li>
-		)}
-	</td>
-);
-
-const ComponentSummary = ({_summary}) => (
-
-	<td>
-		<li>Prep time:{_summary.cook_time} min</li>
-		<li>Cook time:{_summary.prep_time} min</li>
-		<li>Additional time:{_summary.additional_time} min</li>
-		<li>Total time:{_summary.total_time} min</li>
-		<li>Servings:{_summary.servings}</li>
-	</td>
-);
-
-const ComponentProcedure = ({ _procedure }) => (
-
-	<td> { _procedure.map(( _procedure ) => 
-		<li key={ _procedure.toString() }> { _procedure } </li>
-	)}
-	</td>
-);
-
-const ComponentRecipe = ({ _recipe, _selectRecipe }) => (
-
-	<tr>
-		<td>{ _recipe.name }</td>
-		<td>{ _recipe.type }</td>
-		<td>
-			<a href={ _recipe.link } target="blank"> Full Recipe </a>
-		</td>
-		<td >
-			<button onClick={() => _selectRecipe( _recipe )}> Select </button>
-		</td>
-	</tr>
-	
-);
-
-const ComponentButton = ({ _buttonAction, _buttonText }) => (
-	<button onClick={ _buttonAction }>
-		{_buttonText}
-	</button>
-
-);
-
-const ComponentAddRecipe = ({ _recipe, _setSelectedItem }) => (
-	<div>
-		<h3>
-			<ComponentButton _buttonAction={() => _setSelectedItem(null)} _buttonText="Clear Selection" />
-		</h3>
-		<h3> Selected Item: {_recipe.name} </h3>
-		<table width="200%" >
-			<thead>
-				<tr>
-					<th width="20%"> Summary </th>
-					<th width="35%"> Ingredients </th>
-					<th width="200%"> Procedure </th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<ComponentSummary _summary={ _recipe.summary }/>
-					<ComponentIngredients key={ _recipe.ingredients.toString() } _ingredients={ _recipe.ingredients }/>
-					<ComponentProcedure _procedure={ _recipe.procedure }/>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-);
-
-const ComponentSelectedItem = ({ _recipe, _setSelectedItem }) =>(
-	<div>
-		<h3>
-			<ComponentButton _buttonAction={() => _setSelectedItem(null)} _buttonText="Clear Selection" />
-		</h3>
-		<h3> Selected Item: { _recipe.name } </h3>
-		<table width="200%" >
-			<thead>
-				<tr>
-					<th width="20%"> Summary </th>
-					<th width="35%"> Ingredients </th>
-					<th width="200%"> Procedure </th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<ComponentSummary _summary={ _recipe.summary }/>
-					<ComponentIngredients key={ _recipe.ingredients.toString() } _ingredients={ _recipe.ingredients }/>
-					<ComponentProcedure _procedure={ _recipe.procedure }/>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-);
+import ComponentRecipe from "./components/ComponentRecipe";
+import ComponentSelectedItem from "./components/ComponentSelectedItem";
+import ComponentButton from "./components/ComponentButton";
+// import ComponentAddRecipe from "./components/ComponentAddRecipe";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ @Emotion-CSS
 
@@ -130,7 +33,7 @@ const InputCSS = styled.input`
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Main-App
 
-function App() {
+const App = () => {
 	
 	// React Hook
 	// state is the current state of the hook
@@ -140,13 +43,13 @@ function App() {
 
 	const [selectedItem, setSelectedItem] = React.useState(null);
 
-	const [newRecipe, setNewRecipe] = React.useState(null);
+	// const [newRecipe, addRecipe] = React.useState(null);
 
-	const [recipeCounter, setRecipeUID] = React.useState(0);
+	// const [recipeCounter, setRecipeUID] = React.useState(0);
 
-	const increaseRecipeUID = () => setRecipeUID( recipeCounter + 1 );
-	const decreaseRecipeUID = () => setRecipeUID( recipeCounter - 1 );
-	const resetRecipeUID = () => setRecipeUID( 0 );
+	// const increaseRecipeUID = () => setRecipeUID( recipeCounter + 1 );
+	// const decreaseRecipeUID = () => setRecipeUID( recipeCounter - 1 );
+	// const resetRecipeUID = () => setRecipeUID( 0 );
 		
 
 	React.useEffect( ()=>{
@@ -177,41 +80,49 @@ function App() {
 							</td>
 							<td> </td>
 							<td>
-								<ComponentButton _buttonAction={ () => setNewRecipe(newRecipe) } _buttonText="Add Recipe" />
+								<ComponentButton
+									// _buttonAction={ () => setNewRecipe(newRecipe) }
+									_buttonAction={ () => console.log("newRecipe!") }
+									_buttonText="Add Recipe"
+								/>
+								<ComponentButton
+									// _buttonAction={ () => () => setSelectedItem() }
+									_buttonAction={ () => console.log("cleared!") }
+									_buttonText="Clear Recipe"
+								/>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</TwoColumnCSS>
 			<div>
-				{ newRecipe && (
-					<div>	
-							<h3> Selected Item: </h3>
-							<></>
-					</div>
+				{selectedItem && (
+					<ComponentSelectedItem
+						_recipe={ selectedItem }
+						_setSelectedItem={ () => setSelectedItem() }
+					/>
 				)}
-				{selectedItem && ( <ComponentSelectedItem _recipe={selectedItem} _setSelectedItem={setSelectedItem}/> )}
 			</div>
 			<TwoColumnCSS>
 				<table width="100%" >
 					<thead>
 						<tr>
-							<th width="50%"> List of Recipes </th>
-							<th width="0%"> Type </th>
-							<th width="40%"> Link </th>
-							<th width="0%"> Selection </th>
+							<th> List of Recipes </th>
+							<th> Type </th>
+							<th> Selection </th>
 						</tr>
 					</thead>
 					<tbody>
 						{recipe
-							.filter((_recipe) => _recipe.name
+							.filter(( _recipe ) => _recipe.name
 							.toLowerCase()
 							.includes( state.toLowerCase() ))
-							.map(_recipe => (
+							.map( _recipe => (
 								<ComponentRecipe
-									key={_recipe.id}
-									_recipe={_recipe}
-									_selectRecipe={(_recipe)=> setSelectedItem(_recipe)}
+									key={_recipe.id }
+									_recipe={ _recipe }
+									_selectRecipe={( _recipe ) => setSelectedItem( _recipe )}
+									// _selectRecipe={() => console.log( "Recipe Selected!" )}
 								/>
 						))}
 					</tbody>
