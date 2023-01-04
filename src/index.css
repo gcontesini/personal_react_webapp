@@ -1,5 +1,4 @@
 th{
-	text-align: left;
 	font-size: x-large;
 }
 
@@ -9,16 +8,3 @@ th, td {
 	vertical-align: top;
 }
 
-input {
-	width: 100%;
-	font-size: x-large;
-	padding: 0 30px;
-}
-
-.title {
-	text-align: center;
-}
-
-div {
-	margin-bottom: 0.5cm;
-}
