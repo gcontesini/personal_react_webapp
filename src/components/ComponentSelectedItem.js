@@ -1,20 +1,12 @@
 import ComponentIngredients from "./ComponentIngredients";
 import ComponentSummary from "./ComponentSummary";
 import ComponentProcedure from "./ComponentProcedure";
-import ComponentButton from "./ComponentButton";
 
 export default function ComponentSelectedItem ({ _recipe, _setSelectedItem }) {
 
 	return (
 		<div>
-			<h3>
-				<ComponentButton
-					_buttonAction={ () => _setSelectedItem(null) }
-					// _buttonAction={ () => console.log("Cleared Selection!") }
-					_buttonText="Clear Selection"
-				/>
-			</h3>
-			<h3> Selected Item: { _recipe.name } </h3>
+			<h2> Selected Item: { _recipe.name } </h2>
 			<table width="200%" >
 				<thead>
 					<tr>

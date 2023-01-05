@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import './App.css';
 // import Recipe from "recipe-book.json"
 // import PropTypes from "prop-types";
@@ -6,8 +7,8 @@ import styled from "@emotion/styled";
 
 import ComponentRecipe from "./components/ComponentRecipe";
 import ComponentSelectedItem from "./components/ComponentSelectedItem";
-import ComponentButton from "./components/ComponentButton";
-// import ComponentAddRecipe from "./components/ComponentAddRecipe";
+import ComponentHeadBar from "./components/ComponentHeadBar";
+import ComponentAddRecipe from "./components/ComponentAddRecipe";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ @Emotion-CSS
 
@@ -25,76 +26,69 @@ const PageCSS = styled.div`
 	width: 800px;
 `;
 
-const InputCSS = styled.input`
+const NewRecipe = styled.div`
 	width: 100%;
 	font-size: x-large;
+	gridColumnGap: 80rem;
 	padding: 0 30px;
 `;
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Proto-Components
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Main-App
 
-const App = () => {
+export default function App () {
 	
+	const url = "http://localhost:3001/recipe-book.json";
+	
+	React.useEffect( ()=>{
+		fetch( url )
+		.then( ( resp ) => resp.json() )
+		.then( ( recipe_book ) => setRecipeBook( recipe_book ) );
+	}, []	);
+
+	// React.useEffect( (() => {
+
+	// 	const dataHook = response => {
+	// 		setRecipeBook( response.data )
+	// 	}
+	// 	const promise = axios.get( url )
+		
+	// 	promise.then( dataHook )
+
+	// }, []))
+
 	// React Hook
 	// state is the current state of the hook
 	const [state, setState] = React.useState("");
-
-	const [recipe, setRecipe] = React.useState([]);
-
+	const [recipe, setRecipeBook] = React.useState([]);
 	const [selectedItem, setSelectedItem] = React.useState(null);
-
-	// const [newRecipe, addRecipe] = React.useState(null);
+	const [newRecipe, addRecipe] = React.useState(null);
 
 	// const [recipeCounter, setRecipeUID] = React.useState(0);
 
 	// const increaseRecipeUID = () => setRecipeUID( recipeCounter + 1 );
 	// const decreaseRecipeUID = () => setRecipeUID( recipeCounter - 1 );
 	// const resetRecipeUID = () => setRecipeUID( 0 );
-		
-
-	React.useEffect( ()=>{
-		fetch("http://localhost:3001/recipe-book.json")
-		.then( ( resp ) => resp.json() )
-		.then( ( recipe_book ) => setRecipe( recipe_book ) );
-	}, []	);
 
 	return ( 
 		<PageCSS>
 			<TitleCSS> Recipe Book </TitleCSS>
 			<TwoColumnCSS>
-				<table width="100%">
-					<thead>
-						<tr>
-							<th width="50%"> Search for Recipe</th>
-							<th width="10%"></th>
-							<th width="40%"> Add a Recipe </th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<InputCSS
-									value={state}
-									onChange={( _state ) => setState( _state.target.value )}
-								/>
-							</td>
-							<td> </td>
-							<td>
-								<ComponentButton
-									// _buttonAction={ () => setNewRecipe(newRecipe) }
-									_buttonAction={ () => console.log("newRecipe!") }
-									_buttonText="Add Recipe"
-								/>
-								<ComponentButton
-									// _buttonAction={ () => () => setSelectedItem() }
-									_buttonAction={ () => console.log("cleared!") }
-									_buttonText="Clear Recipe"
-								/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<ComponentHeadBar
+					_state={state}
+					_setState={ ( state ) => setState( state ) }
+					_addRecipe={ ( newRecipe) => addRecipe( newRecipe ) }
+					_setSelectedItem={ () => setSelectedItem() }
+				/>
 			</TwoColumnCSS>
+			<NewRecipe>
+				{/* { newRecipe && (
+					<ComponentAddRecipe
+					_newRecipe={}
+					/>
+				)} */}
+			</NewRecipe>
 			<div>
 				{selectedItem && (
 					<ComponentSelectedItem
@@ -104,10 +98,11 @@ const App = () => {
 				)}
 			</div>
 			<TwoColumnCSS>
+				{/* this can be a component */}
 				<table width="100%" >
 					<thead>
 						<tr>
-							<th> List of Recipes </th>
+							<th> Recipe Name </th>
 							<th> Type </th>
 							<th> Selection </th>
 						</tr>
@@ -122,7 +117,6 @@ const App = () => {
 									key={_recipe.id }
 									_recipe={ _recipe }
 									_selectRecipe={( _recipe ) => setSelectedItem( _recipe )}
-									// _selectRecipe={() => console.log( "Recipe Selected!" )}
 								/>
 						))}
 					</tbody>
@@ -131,5 +125,3 @@ const App = () => {
 		</PageCSS>
 	);
 };
-
-export default App;
