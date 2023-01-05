@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/gcontesini/personal_react_webapp/static/css/main.073c9b0a.css",
-    "main.js": "/gcontesini/personal_react_webapp/static/js/main.d9003201.js",
+    "main.css": "/gcontesini/personal_react_webapp/static/css/main.c6a47fd1.css",
+    "main.js": "/gcontesini/personal_react_webapp/static/js/main.3df1bca4.js",
     "static/js/787.8cb37cbe.chunk.js": "/gcontesini/personal_react_webapp/static/js/787.8cb37cbe.chunk.js",
-    "static/media/logo.svg": "/gcontesini/personal_react_webapp/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/gcontesini/personal_react_webapp/index.html",
-    "main.073c9b0a.css.map": "/gcontesini/personal_react_webapp/static/css/main.073c9b0a.css.map",
-    "main.d9003201.js.map": "/gcontesini/personal_react_webapp/static/js/main.d9003201.js.map",
+    "main.c6a47fd1.css.map": "/gcontesini/personal_react_webapp/static/css/main.c6a47fd1.css.map",
+    "main.3df1bca4.js.map": "/gcontesini/personal_react_webapp/static/js/main.3df1bca4.js.map",
     "787.8cb37cbe.chunk.js.map": "/gcontesini/personal_react_webapp/static/js/787.8cb37cbe.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.d9003201.js"
+    "static/css/main.c6a47fd1.css",
+    "static/js/main.3df1bca4.js"
   ]
 }
