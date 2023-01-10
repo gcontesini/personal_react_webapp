@@ -2,7 +2,9 @@ import ComponentIngredients from "./ComponentIngredients";
 import ComponentSummary from "./ComponentSummary";
 import ComponentProcedure from "./ComponentProcedure";
 
-export default function ComponentSelectedItem ({ _recipe, _setSelectedItem }) {
+export default function ComponentSelectedItem ({
+	_recipe
+}) {
 
 	return (
 		<div>

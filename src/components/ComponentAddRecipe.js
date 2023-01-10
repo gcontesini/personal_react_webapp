@@ -2,68 +2,103 @@ import styled from "@emotion/styled";
 
 const InputCSS = styled.input`
 	width: 100%;
-	font-size: x-large;
-	padding: 0 20px;
 `;
 
 const LiCSS = styled.li`
 	list-style-type: none;
 `;
 
-export default function ComponentAddRecipe ({ _newRecipe }) {
+export default function ComponentAddRecipe ({
+	_newRecipe,
+	_setNewRecipe,
+}) {
 	
+	const fillNewRecipeField = (
+		newValue
+	) => {
+ 
+    let newRecipe_ = { };
+  
+    newRecipe_ = {
+			name:newValue.target.name.value ,
+			type:newValue.target.type.value ,
+			// link:newValue.target.link.value ,
+			// summary:{
+			// 	prep_time:newValue.target.value ,
+			// 	cook_time:newValue.target.value ,
+			// 	additional_time:newValue.target.value ,
+			// 	total_time:newValue.target.value ,
+			// 	servings:newValue.target.value ,
+			// },
+			// ingredients:newValue.target.value ,
+			// procedures:newValue.target.value ,
+		};
+  
+    _setNewRecipe( _newRecipe => ({
+        ..._newRecipe,
+        ...newRecipe_
+      }));
+  }
+
 	return(
 				
 		<ul>
-			<h3>New Recipe</h3>
-			<LiCSS> Name:<br/>
+			<h3> New Recipe </h3>
+			<LiCSS> Name: <br/>
 				<InputCSS
-					// value={_newRecipe.newRecipeName}
-					// onChange={( newRecipeName ) => setState( newRecipeName.target.value )}
+					type = "text"
+					name = "name"
+					onChange = { ( newValue ) => fillNewRecipeField( newValue ) }
 				/>
-			</LiCSS> <br/>
-			<LiCSS> Type: <br/>
-				{/* <label for="type-select"></label> */}
-				<select name="select type" id="type-select">
-						{/* <option _newRecipe.type="">--Please select a type--</option>
-						<option _newRecipe.type="Breakfast">Breakfast</option>
-						<option _newRecipe.type="Brunch">Brunch</option>
-						<option _newRecipe.type="Dessert">Dessert</option>
-						<option _newRecipe.type="Lunch">Lunch</option>
-						<option _newRecipe.type="Snack">Snack</option>
-						<option _newRecipe.type="Supper">Supper</option> */}
+			</LiCSS><br/>
+			<LiCSS> Type:  <br/>
+				{/* <label for="type-select" ></label> */}
+				<select
+					id="type-select" 
+					name="type"
+					onChange = { ( newValues ) => fillNewRecipeField( newValues ) }
+				>
+						<option value="">--Please select a type--</option>
+						<option value="Breakfast">Breakfast</option>
+						<option value="Brunch">Brunch</option>
+						<option value="Dessert">Dessert</option>
+						<option value="Lunch">Lunch</option>
+						<option value="Snack">Snack</option>
+						<option value="Supper">Supper</option>
 				</select>
 			</LiCSS> <br/>
-			<LiCSS> Summary: <br/>
+			{ console.log(_newRecipe.name) }
+			{ console.log(_newRecipe.type) }
+			{/* <LiCSS> Summary: <br/>
 				<ul>
 					<LiCSS>Prep time:
 							<InputCSS
-							// value={_newRecipe.prepTime}
-							// onChange={( _newRecipe.prepTime ) => setState( _newRecipe.prepTime.target.value )}
+							value={_newRecipe.prepTime}
+							onChange={( _newRecipe.prepTime ) => setState( _newRecipe.prepTime.target.value )}
 						/>
 					</LiCSS>
 					<LiCSS>Cook time:
 						<InputCSS
-							// value={_newRecipe.cookTime}
-							// onChange={( newRecipe.cookTime ) => setState( _newRecipe.cookTime.target.value )}
+							value={_newRecipe.cookTime}
+							onChange={( newRecipe.cookTime ) => setState( _newRecipe.cookTime.target.value )}
 						/>
 					</LiCSS>
 					<LiCSS>Additional time:
 						<InputCSS
-							// value={_newRecipe.AadditionalTime}
-							// onChange={( newRecipeAdditionalTime ) => setState( _newRecipe.additionalTime.target.value )}
+							value={_newRecipe.AadditionalTime}
+							onChange={( newRecipeAdditionalTime ) => setState( _newRecipe.additionalTime.target.value )}
 						/>
 					</LiCSS>
 					<LiCSS>Total time:
 						<InputCSS
-							// value={_newRecipe.TotalTime}
-							// onChange={( _newRecipe.TotalTime ) => setState( _newRecipe.totalTime.target.value )}
+							value={_newRecipe.TotalTime}
+							onChange={( _newRecipe.TotalTime ) => setState( _newRecipe.totalTime.target.value )}
 						/>
 					</LiCSS>
 					<LiCSS>Servings:
 						<InputCSS
-							// value={newRecipeServings}
-							// onChange={( _newRecipe.Servings ) => setState( _newRecipe.Servings.target.value )}
+							value={newRecipeServings}
+							onChange={( _newRecipe.Servings ) => setState( _newRecipe.Servings.target.value )}
 						/>
 					</LiCSS>
 				</ul>
@@ -92,10 +127,10 @@ export default function ComponentAddRecipe ({ _newRecipe }) {
 			</LiCSS> <br/>
 			<LiCSS> Link: <br/>
 				<InputCSS
-					// value={newRecipeLink}
-					// onChange={( newRecipe ) => setState( newRecipe.target.value )}
+					value={newRecipeLink}
+					onChange={( newRecipe ) => setState( newRecipe.target.value )}
 				/>
-			</LiCSS> <br/>
-		</ul>
+			</LiCSS> */}
+		</ul> 
 	)
 };

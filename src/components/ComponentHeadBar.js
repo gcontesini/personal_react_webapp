@@ -3,8 +3,6 @@ import styled from "@emotion/styled";
 
 const InputCSS = styled.input`
 	width: 100%;
-	font-size: x-large;
-	padding: 0 20px;
 `;
 
 export default function ComponentHeadBar ({
@@ -27,16 +25,18 @@ export default function ComponentHeadBar ({
         <tr>
           <td>
             <InputCSS
-              value={_state}
-              onChange={( _state ) => _setState( _state.target.value )}
+              type="text"
+              value = { _state }
+              onChange = { ( _state ) => _setState( _state.target.value ) }
             />
           </td>
           <td> </td>
           <td>
             <ComponentButton
               _buttonAction={ () => {
-                _setSelectedItem(null);
-                _addRecipe(null);
+                _setSelectedItem( null );
+                _addRecipe( null );
+                _setState( "" );
               }}
               _buttonText="Clear"
             />

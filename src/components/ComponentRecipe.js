@@ -1,6 +1,9 @@
 import ComponentButton from "./ComponentButton";
 
-export default function ComponentRecipe ({ _recipe, _selectRecipe }) {
+export default function ComponentRecipe ({
+	_recipe,
+	_selectRecipe
+}) {
 	
 	return (
 		<tr>

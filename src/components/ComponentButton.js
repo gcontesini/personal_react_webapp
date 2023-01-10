@@ -1,8 +1,18 @@
-export default function ComponentButton ({ _buttonAction, _buttonText }) {
+import Button from '@mui/material/Button';
+
+export default function ComponentButton ({
+	_buttonAction,
+	_buttonText
+}) {
 	
 	return (
-		<button onClick={ _buttonAction }>
+		<Button
+			variant = "contained"
+			color = "info"
+			size = "small"
+			onClick = { _buttonAction }
+		>
 			{_buttonText}
-		</button>
+		</Button>
 	)
 };

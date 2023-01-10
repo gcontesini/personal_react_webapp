@@ -1,4 +1,6 @@
-export default function ComponentProcedure  ({ _procedure }) {
+export default function ComponentProcedure  ({
+	_procedure
+}) {
 
 	return (
 		<td> { _procedure.map(( _procedure ) => 

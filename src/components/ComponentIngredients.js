@@ -1,4 +1,6 @@
-export default function ComponentIngredients ({ _ingredients }) {
+export default function ComponentIngredients ({
+	_ingredients
+}) {
 
 	return (
 		<td>{ _ingredients.map(( _ingredients_ ) => 
