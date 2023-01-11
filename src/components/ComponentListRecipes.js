@@ -5,6 +5,8 @@ export default function ComponentListRecipes ({
   _state,
   _setSelectedItem
 })  {
+  
+  const recipe = Object.values(_recipe)
 
   return(
     <table width="100%" >

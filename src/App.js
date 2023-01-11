@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import ComponentListRecipes from "./components/ComponentListRecipes";
 import ComponentSelectedItem from "./components/ComponentSelectedItem";
 import ComponentHeadBar from "./components/ComponentHeadBar";
-import ComponentAddRecipe from "./components/ComponentAddRecipe";
+// import ComponentAddRecipe from "./components/ComponentAddRecipe";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ @Emotion-CSS
 
@@ -41,67 +41,53 @@ const NewRecipe = styled.div`
 
 export default function App () {
 
-	const url = "http://localhost:3001/recipe-book.json";
-
-	// Data retrieve using Axios
-	const dataHook = response => {
-		setRecipeBook( response.data )
-	}
-
-	axios.get( url, {
-		timeout: 2000,
-	})
-		.then( dataHook )
-		.catch( (err) => {
-			if (err.response) {
-				const { status } = err.response;
-
-				if (status === 401) {
-					// console.log("Client authentication problems!")
-				}
-				else if (status === 502) {
-					// console.log("Serve invalid response!")
-				}
-			}
-			else if (err.request) {
-				// console.log("No response was receive!")
-			} 
-			else {
-				// console.log("There is no cow level!")
-			}
-		});
+	const url = "http://localhost:3001/recipes";
 
 	// React Hook
 	// state is the current state of the hook
-	const [ state, setState ] = React.useState( "" );
-	const [ recipe, setRecipeBook ] = React.useState( [] );
+	const [ state, setState ] = React.useState("");
+	const [ recipes, setRecipeBook ] = React.useState([]);
 	const [ selectedItem, setSelectedItem ] = React.useState( null );
-	const [ addRecipe, setAddRecipe ] = React.useState(null)
-	const [ newRecipe, setNewRecipe ] = React.useState(
-		{
-			name: "",
-			type: "",
-			link: "",
-			summary: {
-				prep_time: 0,
-				cook_time: 0,
-				additional_time: 0,
-				total_time: 0,
-				servings: 0,
-			},
-			ingredients: "",
-			procedures: "",
-		}
-	);
+	const [ addRecipe, setAddRecipe ] = React.useState(null);
+	const [ newRecipe, setNewRecipe ] = React.useState('');
 
-	const addRecipeDB = ( event ) => {
+
+	// const update = (id, newRecipe) => {
+	// 	const request = axios.put(`${url}/${id}`, newRecipe)
+	// 	return request.then( response => response.data )
+	// }
+
+	React.useEffect( () => {
+		axios.get( url )
+			.then( savedRecipeBook => {
+				setRecipeBook( savedRecipeBook.data )
+			})
+	}, [])
+
+		// {
+		// 	name: "",
+		// 	type: "",
+		// 	link: "",
+		// 	summary: {
+		// 		prep_time: 0,
+		// 		cook_time: 0,
+		// 		additional_time: 0,
+		// 		total_time: 0,
+		// 		servings: 0,
+		// 	},
+		// 	ingredients: "",
+		// 	procedures: "",
+		// }
+
+	const addRecipeDB = event => {
 		
 		event.preventDefault()
 
-		const newRecipeForm = {
-			name: "cow",
+		const newRecipeObject = {
+			id: Object.values( recipes ).map( recipes => recipes.length+1 ),
+			name: newRecipe,
 			type: "foo",
-			link: "bar",
+			link: ["http://localhost:3001/recipes"],
 			summary: {
 				prep_time: 1,
 				cook_time: 2,
@@ -109,27 +95,34 @@ export default function App () {
 				total_time: 4,
 				servings: 5,
 			},
-			ingredients: "asd",
-			procedures: "asa",
+			ingredients: [
+				"asd1",
+				"asd2"
+			],
+			procedure: [
+				"asa1",
+				"asa2"
+			],
 		}
 
-		axios
-			.post(url, newRecipeForm)
+		axios.post( 'http://localhost:3001/recipes', newRecipeObject )
 			.then( response => {
-				console.log( response )
-				setRecipeBook( recipe.concat(response.data) )
-				setNewRecipe('')
+				console.log(response)
+				// setRecipeBook( recipes.concat( response.data ) )
+				// setNewRecipe('')
+			})
+			.catch( function ( error ) {
+				console.log( error );
 			})
 	}
 
 	const handleRecipeBookChange = ( event ) => {
-		setRecipeBook(event.target.value);
-		console.log(event.target.value);
-	};
+		setNewRecipe( event.target.value )
+	}
 
 	return ( 
 		<PageCSS>
-			<TitleCSS> Recipe Book </TitleCSS>
+			<TitleCSS> Recipe Book {} </TitleCSS>
 			<TwoColumnCSS>
 				<ComponentHeadBar
 					_state = { state }
@@ -140,8 +133,12 @@ export default function App () {
 			</TwoColumnCSS>
 			<NewRecipe>
 				{ addRecipe && (
-					<form onSubmit = { addRecipeDB }>
-						<button type="form" onChange={handleRecipeBookChange}>Save</button>
+					<form onSubmit={addRecipeDB}>
+						<input
+							value={newRecipe}
+							onChange={handleRecipeBookChange}	
+						/>
+						<button type="submit">Save</button>
 					</form>
 					// <ComponentAddRecipe
 					// 	_newRecipe = { newRecipe }
@@ -157,11 +154,12 @@ export default function App () {
 			</div>
 			<TwoColumnCSS>
 				<ComponentListRecipes
-					_recipe = { recipe }
+					_recipe = { recipes }
 					_state = { state }
-					_setSelectedItem = { ( recipe ) => setSelectedItem( recipe ) } 
+					_setSelectedItem = { ( recipes ) => setSelectedItem( recipes ) } 
 				/>
 			</TwoColumnCSS>
 		</PageCSS>
 	);
 };
+
