@@ -5,11 +5,12 @@ const InputCSS = styled.input`
 	width: 100%;
 `;
 
-export default function ComponentHeadBar ({
-  _state,
-  _setState,
+export default function ComponentHeadBar({
+  _searchRecipe,
+  _setSearchRecipe,
   _addRecipe,
-  _setSelectedItem
+  _setSelectedItem,
+  _setDelRecipe
 }) {
 
   return (
@@ -26,22 +27,23 @@ export default function ComponentHeadBar ({
           <td>
             <InputCSS
               type="text"
-              value = { _state }
-              onChange = { ( _state ) => _setState( _state.target.value ) }
+              value={ _searchRecipe }
+              onChange={ (_state) => _setSearchRecipe(_state.target.value) }
             />
           </td>
           <td> </td>
           <td>
             <ComponentButton
               _buttonAction={ () => {
-                _setSelectedItem( null );
-                _addRecipe( null );
-                _setState( "" );
-              }}
+                _setSelectedItem(null);
+                _setDelRecipe(null);
+                _addRecipe(null);
+                _setSearchRecipe("");
+              } }
               _buttonText="Clear"
             />
             <ComponentButton
-              _buttonAction={ () => _addRecipe( 1 ) }
+              _buttonAction={ () => _addRecipe(1) }
               _buttonText="Add Recipe"
             />
           </td>

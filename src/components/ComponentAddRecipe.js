@@ -8,20 +8,20 @@ const LiCSS = styled.li`
 	list-style-type: none;
 `;
 
-export default function ComponentAddRecipe ({
+export default function ComponentAddRecipe({
 	_newRecipe,
 	_setNewRecipe,
 }) {
-	
+
 	const fillNewRecipeField = (
 		newValue
 	) => {
- 
-    let newRecipe_ = { };
-  
-    newRecipe_ = {
-			name:newValue.target.name.value ,
-			type:newValue.target.type.value ,
+
+		let newRecipe_ = {};
+
+		newRecipe_ = {
+			name: newValue.target.recipeName.value,
+			type: newValue.target.recipeType.value,
 			// link:newValue.target.link.value ,
 			// summary:{
 			// 	prep_time:newValue.target.value ,
@@ -33,40 +33,40 @@ export default function ComponentAddRecipe ({
 			// ingredients:newValue.target.value ,
 			// procedures:newValue.target.value ,
 		};
-  
-    _setNewRecipe( _newRecipe => ({
-        ..._newRecipe,
-        ...newRecipe_
-      }));
-  }
 
-	return(
-				
+		_setNewRecipe(_newRecipe => ({
+			..._newRecipe,
+			...newRecipe_
+		}));
+	}
+
+	return (
+
 		<ul>
 			<h3> New Recipe </h3>
-			<LiCSS> Name: <br/>
+			<LiCSS> Name: <br />
 				<InputCSS
-					type = "text"
-					name = "name"
-					onChange = { ( newValue ) => fillNewRecipeField( newValue ) }
+					type="text"
+					name="recipeName"
+					onChange={ (newValue) => fillNewRecipeField(newValue) }
 				/>
-			</LiCSS><br/>
-			<LiCSS> Type:  <br/>
-				{/* <label for="type-select" ></label> */}
+			</LiCSS><br />
+			<LiCSS> Type:  <br />
+				{/* <label for="type-select" ></label> */ }
 				<select
-					id="type-select" 
-					name="type"
-					onChange = { ( newValues ) => fillNewRecipeField( newValues ) }
+					id="type-select"
+					name="recipeType"
+					onChange={ (newValues) => fillNewRecipeField(newValues) }
 				>
-						<option value="">--Please select a type--</option>
-						<option value="Breakfast">Breakfast</option>
-						<option value="Brunch">Brunch</option>
-						<option value="Dessert">Dessert</option>
-						<option value="Lunch">Lunch</option>
-						<option value="Snack">Snack</option>
-						<option value="Supper">Supper</option>
+					<option value="">--Please select a type--</option>
+					<option value="Breakfast">Breakfast</option>
+					<option value="Brunch">Brunch</option>
+					<option value="Dessert">Dessert</option>
+					<option value="Lunch">Lunch</option>
+					<option value="Snack">Snack</option>
+					<option value="Supper">Supper</option>
 				</select>
-			</LiCSS> <br/>
+			</LiCSS> <br />
 			{ console.log(_newRecipe.name) }
 			{ console.log(_newRecipe.type) }
 			{/* <LiCSS> Summary: <br/>
@@ -131,6 +131,6 @@ export default function ComponentAddRecipe ({
 					onChange={( newRecipe ) => setState( newRecipe.target.value )}
 				/>
 			</LiCSS> */}
-		</ul> 
+		</ul>
 	)
 };

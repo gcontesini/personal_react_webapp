@@ -1,8 +1,8 @@
 import ComponentIngredients from "./ComponentIngredients";
 import ComponentSummary from "./ComponentSummary";
-import ComponentProcedure from "./ComponentProcedure";
+import ComponentProcedures from "./ComponentProcedures";
 
-export default function ComponentSelectedItem ({
+export default function ComponentSelectedItem({
 	_recipe
 }) {
 
@@ -20,12 +20,12 @@ export default function ComponentSelectedItem ({
 				</thead>
 				<tbody>
 					<tr>
-						<ComponentSummary _summary={ _recipe.summary }/>
+						<ComponentSummary _summary={ _recipe.summary } />
 						<ComponentIngredients
 							key={ _recipe.ingredients.toString() }
 							_ingredients={ _recipe.ingredients }
 						/>
-						<ComponentProcedure _procedure={ _recipe.procedure }/>
+						<ComponentProcedures _procedures={ _recipe.procedures } />
 						<td>
 							<a href={ _recipe.link } target="blank"> Full Recipe </a>
 						</td>

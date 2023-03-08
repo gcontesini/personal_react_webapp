@@ -1,12 +1,13 @@
 import ComponentRecipe from "./ComponentRecipe";
 
-export default function ComponentListRecipes ({
+export default function ComponentListRecipes({
   _recipe,
-  _state,
-  _setSelectedItem
-})  {
+  _searchRecipe,
+  _setSelectedItem,
+  _setDelRecipe
+}) {
 
-  return(
+  return (
     <table width="100%" >
       <thead>
         <tr>
@@ -16,17 +17,18 @@ export default function ComponentListRecipes ({
         </tr>
       </thead>
       <tbody>
-        {_recipe
-          .filter(( recipe_ ) => recipe_.name
-          .toLowerCase()
-          .includes( _state.toLowerCase() ))
-          .map( recipe_ => (
+        { _recipe
+          .filter((recipe_) => recipe_.name
+            .toLowerCase()
+            .includes(_searchRecipe.toLowerCase()))
+          .map(recipe_ => (
             <ComponentRecipe
               key={ recipe_.id }
               _recipe={ recipe_ }
-              _selectRecipe={ ( recipe_ ) => _setSelectedItem( recipe_ ) }
+              _selectRecipe={ (recipe_) => _setSelectedItem(recipe_) }
+              _setDelRecipe={ (recipe_) => _setDelRecipe(recipe_) }
             />
-        ))}
+          )) }
       </tbody>
     </table>
   )
