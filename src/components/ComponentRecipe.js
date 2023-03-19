@@ -2,7 +2,7 @@ import ComponentButton from "./ComponentButton";
 
 export default function ComponentRecipe({
 	_recipe,
-	_selectRecipe,
+	_setSelectedRecipe,
 	_setDelRecipe
 }) {
 
@@ -12,7 +12,7 @@ export default function ComponentRecipe({
 			<td>{ _recipe.type }</td>
 			<td >
 				<ComponentButton
-					_buttonAction={ () => _selectRecipe(_recipe) }
+					_buttonAction={ () => _setSelectedRecipe(_recipe) }
 					_buttonText="Select"
 				/>
 			</td>

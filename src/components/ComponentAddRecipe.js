@@ -1,4 +1,8 @@
 import styled from "@emotion/styled";
+import React from 'react';
+import Select from 'react-select';
+import validator from 'validator';
+import ComponentButton from './ComponentButton';
 
 const InputCSS = styled.input`
 	width: 100%;
@@ -8,67 +12,110 @@ const LiCSS = styled.li`
 	list-style-type: none;
 `;
 
-export default function ComponentAddRecipe({
-	_newRecipe,
-	_setNewRecipe,
-}) {
+const typeOptions = [
+	{ value: "Breakfast", label: "Breakfast" },
+	{ value: "Brunch", label: "Brunch" },
+	{ value: "Dessert", label: "Dessert" },
+	{ value: "Lunch", label: "Lunch" },
+	{ value: "Snack", label: "Snack" },
+	{ value: "Supper", label: "Supper" },
+]
 
-	const fillNewRecipeField = (
-		newValue
-	) => {
+const ComponentAddRecipe = ({
+	_recipeUID,
+	_onSave,
+	_newRecipe = {}
+}) => {
 
-		let newRecipe_ = {};
+	const [newRecipe, setNewRecipe] = React.useState({ id: _recipeUID });
+	const [errors, setErrors] = React.useState('');
+	const {
+		name,
+		type,
+		link,
+		// summary{
+		// 	prep_time,
+		// 	cook_time,
+		// 	additional_time,
+		// 	total_time,
+		// 	servings,
+		// },
+		// ingredients,
+		// procedures,
+	} = newRecipe;
 
-		newRecipe_ = {
-			name: newValue.target.recipeName.value,
-			type: newValue.target.recipeType.value,
-			// link:newValue.target.link.value ,
-			// summary:{
-			// 	prep_time:newValue.target.value ,
-			// 	cook_time:newValue.target.value ,
-			// 	additional_time:newValue.target.value ,
-			// 	total_time:newValue.target.value ,
-			// 	servings:newValue.target.value ,
-			// },
-			// ingredients:newValue.target.value ,
-			// procedures:newValue.target.value ,
-		};
 
-		_setNewRecipe(_newRecipe => ({
-			..._newRecipe,
-			...newRecipe_
-		}));
-	}
+	const handleChange = (event) => {
+		const { name, value } = event.target
+		// setNewRecipe((prevRecipeBook) => ({ ...prevRecipeBook, id: _recipeUID }));
+		setNewRecipe((prevRecipeBook) => ({ ...prevRecipeBook, [name]: value }));
+	};
+
+	const handleSelectChange = (option) => {
+		const { name, value } = option.target
+		setNewRecipe((prevRecipeBook) => ({ ...prevRecipeBook, [name]: value }));
+	};
+
+	const validationData = () => {
+
+		let errors = {};
+
+		if (!name) {
+			errors.name = "Name is required";
+		}
+
+		if (!validator.isURL(link)) {
+			errors.link = "A valid link is required";
+		}
+
+		return errors;
+	};
+
+	const saveData = () => {
+		const errors = validationData();
+		if (Object.keys(errors).length) {
+			setErrors(errors);
+			return;
+		}
+
+		setErrors({});
+		console.log(newRecipe);
+		_onSave(newRecipe);
+	};
 
 	return (
-
 		<ul>
-			<h3> New Recipe </h3>
+			<h4> New Recipe </h4>
 			<LiCSS> Name: <br />
 				<InputCSS
+					id="name"
 					type="text"
 					name="recipeName"
-					onChange={ (newValue) => fillNewRecipeField(newValue) }
+					value={ name }
+					onChange={ handleChange }
 				/>
 			</LiCSS><br />
+			<div style={ { color: "red" } }>{ errors.name }</div>
 			<LiCSS> Type:  <br />
-				{/* <label for="type-select" ></label> */ }
-				<select
+				<Select
 					id="type-select"
 					name="recipeType"
-					onChange={ (newValues) => fillNewRecipeField(newValues) }
-				>
-					<option value="">--Please select a type--</option>
-					<option value="Breakfast">Breakfast</option>
-					<option value="Brunch">Brunch</option>
-					<option value="Dessert">Dessert</option>
-					<option value="Lunch">Lunch</option>
-					<option value="Snack">Snack</option>
-					<option value="Supper">Supper</option>
-				</select>
+					value={ typeOptions.find(({ value }) => value === type) }
+					onChange={ handleSelectChange }
+					options={ typeOptions }
+				/>
 			</LiCSS> <br />
-			{ console.log(_newRecipe.name) }
-			{ console.log(_newRecipe.type) }
+			<div style={ { color: "red" } }>{ errors.type }</div>
+			<LiCSS> Link: <br />
+				<InputCSS
+					id="link"
+					type="url"
+					name="recipelink"
+					value={ link }
+					onChange={ handleChange }
+				/>
+			</LiCSS><br />
+			<div style={ { color: "red" } }>{ errors.link }</div>
 			{/* <LiCSS> Summary: <br/>
 				<ul>
 					<LiCSS>Prep time:
@@ -131,6 +178,12 @@ export default function ComponentAddRecipe({
 					onChange={( newRecipe ) => setState( newRecipe.target.value )}
 				/>
 			</LiCSS> */}
-		</ul>
+			<ComponentButton
+				_buttonAction={ () => _onSave() }
+				_buttonText="Save Recipe"
+			/>
+		</ul >
 	)
 };
+
+export default ComponentAddRecipe;

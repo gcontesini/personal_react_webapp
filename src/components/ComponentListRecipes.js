@@ -3,7 +3,7 @@ import ComponentRecipe from "./ComponentRecipe";
 export default function ComponentListRecipes({
   _recipe,
   _searchRecipe,
-  _setSelectedItem,
+  _setSelectedRecipe,
   _setDelRecipe
 }) {
 
@@ -18,15 +18,15 @@ export default function ComponentListRecipes({
       </thead>
       <tbody>
         { _recipe
-          .filter((recipe_) => recipe_.name
+          .filter((event) => event.name
             .toLowerCase()
             .includes(_searchRecipe.toLowerCase()))
-          .map(recipe_ => (
+          .map((event) => (
             <ComponentRecipe
-              key={ recipe_.id }
-              _recipe={ recipe_ }
-              _selectRecipe={ (recipe_) => _setSelectedItem(recipe_) }
-              _setDelRecipe={ (recipe_) => _setDelRecipe(recipe_) }
+              key={ event.id }
+              _recipe={ event }
+              _setSelectedRecipe={ (event) => _setSelectedRecipe(event) }
+              _setDelRecipe={ (event) => _setDelRecipe(event) }
             />
           )) }
       </tbody>

@@ -4,9 +4,7 @@ import styled from '@emotion/styled';
 
 import ComponentListRecipes from './components/ComponentListRecipes';
 import ComponentSelectedItem from './components/ComponentSelectedItem';
-import ComponentDeleteItem from './components/ComponentDeleteItem';
 import ComponentHeadBar from './components/ComponentHeadBar';
-import ComponentButton from './components/ComponentButton';
 import ComponentAddRecipe from './components/ComponentAddRecipe';
 
 import Services from './services/services'
@@ -41,15 +39,13 @@ export default function App() {
 
 	const [searchRecipe, setSearchRecipe] = React.useState('');
 	const [recipe, setRecipeBook] = React.useState([]);
-	const [selectedItem, setSelectedItem] = React.useState(null);
+	const [selectedItem, setSelectedRecipe] = React.useState(null);
 	const [addRecipe, setAddRecipe] = React.useState(null);
 	const [delRecipe, setDelRecipe] = React.useState(null);
-
 	const [newRecipe, setNewRecipe] = React.useState({
-		id: recipe.length + 1,
-		name: '',
-		type: '',
-		link: '',
+		name: "-",
+		type: "-",
+		link: [],
 		summary: {
 			prep_time: 0,
 			cook_time: 0,
@@ -57,9 +53,10 @@ export default function App() {
 			total_time: 0,
 			servings: 0,
 		},
-		ingredients: '',
-		procedures: '',
-	});
+		ingredients: "-",
+		procedures: "-",
+
+	})
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Fetching DB
 
 	React.useEffect(() => {
@@ -68,37 +65,27 @@ export default function App() {
 		});
 	}, []);
 
+	React.useEffect(() => {
+		if (delRecipe !== null) {
+			Services.serviceDelete(delRecipe.id,).then((response) => {
+				console.log("Recipe Deleted");
+				setDelRecipe(null);
+			});
+		}
+	}, [delRecipe]);
+
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Add Recipe
-	const addRecipeDB = (event) => {
-		event.preventDefault();
+	const handleNewRecipe = (newRecipe) => {
 
-		const newRecipeForm = {
-			id: recipe.length + 1,
-			name: 'cow',
-			type: 'foo',
-			link: 'bar',
-			summary: {
-				prep_time: 1,
-				cook_time: 2,
-				additional_time: 3,
-				total_time: 4,
-				servings: 5,
-			},
-			ingredients: 'asd',
-			procedures: 'asa',
-		};
+		console.log({ newRecipe });
 
-		Services.serviceCreate(newRecipeForm).then((response) => {
-			console.log(response);
-			setRecipeBook(recipe.concat(response.data));
-			setNewRecipe('');
-		});
+		// Services.serviceCreate(newRecipe).then((response) => {
+		// 	console.log(response);
+		// 	setRecipeBook(recipe.concat(response.data));
+		// 	setAddRecipe(null);
+		// });
 	};
 
-	const handleRecipeBookChange = (event) => {
-		setRecipeBook(event.target.value);
-		console.log(event.target.value);
-	};
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Return
 	return (
@@ -107,41 +94,34 @@ export default function App() {
 			<TwoColumnCSS>
 				<ComponentHeadBar
 					_searchRecipe={ searchRecipe }
-					_setSearchRecipe={ (searchRecipe) => setSearchRecipe(searchRecipe) }
-					_addRecipe={ (addRecipe) => setAddRecipe(addRecipe) }
-					_setSelectedItem={ (selectedItem) => setSelectedItem(selectedItem) }
-					_setDelRecipe={ (delRecipe) => setDelRecipe(delRecipe) }
+					_setSearchRecipe={ (event) => setSearchRecipe(event) }
+					_addRecipe={ (event) => setAddRecipe(event) }
+					_setSelectedRecipe={ (event) => setSelectedRecipe(event) }
+					_setDelRecipe={ (event) => setDelRecipe(event) }
 				/>
 			</TwoColumnCSS>
 			<NewRecipe>
 				{ addRecipe && (
-					<form onSubmit={ addRecipeDB }>
-						<ComponentAddRecipe
-							_newRecipe={ newRecipe }
-							_setNewRecipe={ (newRecipe) => setNewRecipe(newRecipe) }
-						/>
-						<ComponentButton
-							_buttonType="submit"
-							_buttonText="Add Recipe"
-							_buttonChange={ handleRecipeBookChange }
-						/>
-					</form>
+					<ComponentAddRecipe
+						_recipeUID={ recipe.length + 1 }
+						_onSave={ handleNewRecipe }
+						_newRecipe={ newRecipe }
+					/>
 				) }
 			</NewRecipe>
-			<div>
-				{ delRecipe && <ComponentDeleteItem _recipe={ delRecipe } /> }
-			</div>
-			<div>
-				{ selectedItem && <ComponentSelectedItem _recipe={ selectedItem } /> }
-			</div>
+			<>
+				{ selectedItem && (
+					<ComponentSelectedItem _recipe={ selectedItem } />
+				) }
+			</>
 			<TwoColumnCSS>
 				<ComponentListRecipes
 					_recipe={ recipe }
 					_searchRecipe={ searchRecipe }
-					_setSelectedItem={ (recipe) => setSelectedItem(recipe) }
-					_setDelRecipe={ (recipe) => setDelRecipe(recipe) }
+					_setSelectedRecipe={ (event) => setSelectedRecipe(event) }
+					_setDelRecipe={ (event) => setDelRecipe(event) }
 				/>
 			</TwoColumnCSS>
-		</PageCSS>
+		</PageCSS >
 	);
 }

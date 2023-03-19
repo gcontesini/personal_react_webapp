@@ -9,7 +9,7 @@ export default function ComponentHeadBar({
   _searchRecipe,
   _setSearchRecipe,
   _addRecipe,
-  _setSelectedItem,
+  _setSelectedRecipe,
   _setDelRecipe
 }) {
 
@@ -28,14 +28,14 @@ export default function ComponentHeadBar({
             <InputCSS
               type="text"
               value={ _searchRecipe }
-              onChange={ (_state) => _setSearchRecipe(_state.target.value) }
+              onChange={ (event) => _setSearchRecipe(event.target.value) }
             />
           </td>
           <td> </td>
           <td>
             <ComponentButton
               _buttonAction={ () => {
-                _setSelectedItem(null);
+                _setSelectedRecipe(null);
                 _setDelRecipe(null);
                 _addRecipe(null);
                 _setSearchRecipe("");
