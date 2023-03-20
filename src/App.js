@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { useForm, useController } from 'react-hook-form';
 import './App.css';
 import styled from '@emotion/styled';
 
@@ -7,10 +8,7 @@ import ComponentSelectedItem from './components/ComponentSelectedItem';
 import ComponentHeadBar from './components/ComponentHeadBar';
 import ComponentAddRecipe from './components/ComponentAddRecipe';
 
-import ComponentListRecipes from "./components/ComponentListRecipes";
-import ComponentSelectedItem from "./components/ComponentSelectedItem";
-import ComponentHeadBar from "./components/ComponentHeadBar";
-import ComponentAddRecipe from "./components/ComponentAddRecipe";
+import Services from './services/services'
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ @Emotion-CSS
 
@@ -36,104 +34,54 @@ const NewRecipe = styled.div`
 `;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Main-App
-
-export default function App () {
-
-	const url = "http://localhost:3001/recipe-book.json";
-
-	// Data retrieve using Axios
-	const dataHook = response => {
-		setRecipeBook( response.data )
-	}
-
-	axios.get( url, {
-		timeout: 2000,
-	})
-		.then( dataHook )
-		.catch( (err) => {
-			if (err.response) {
-				const { status } = err.response;
-
-				if (status === 401) {
-					// console.log("Client authentication problems!")
-				}
-				else if (status === 502) {
-					// console.log("Serve invalid response!")
-				}
-			}
-			else if (err.request) {
-				// console.log("No response was receive!")
-			} 
-			else {
-				// console.log("There is no cow level!")
-			}
-		});
+export default function App() {
 
 	// React Hook
-	// state is the current state of the hook
-	const [ state, setState ] = React.useState( "" );
-	const [ recipe, setRecipeBook ] = React.useState( [] );
-	const [ selectedItem, setSelectedItem ] = React.useState( null );
-	const [ addRecipe, setAddRecipe ] = React.useState(null)
-	const [ newRecipe, setNewRecipe ] = React.useState(
-		{
-			name: "",
-			type: "",
-			link: "",
-			summary: {
-				prep_time: 0,
-				cook_time: 0,
-				additional_time: 0,
-				total_time: 0,
-				servings: 0,
-			},
-			ingredients: "",
-			procedures: "",
-		}
-	);
 
-	const addRecipeDB = ( event ) => {
-		
-		event.preventDefault()
+	const [searchRecipe, setSearchRecipe] = useState('');
+	const [recipe, setRecipeBook] = useState([]);
+	const [selectedItem, setSelectedRecipe] = useState(null);
+	const [addRecipe, setAddRecipe] = useState(null);
+	const [delRecipe, setDelRecipe] = useState(null);
+	const { register, control, handleSubmit } = useForm();
+	const { field } = useController({ name: "type", control });
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Fetching DB
 
-		const newRecipeForm = {
-			name: "cow",
-			type: "foo",
-			link: "bar",
-			summary: {
-				prep_time: 1,
-				cook_time: 2,
-				additional_time: 3,
-				total_time: 4,
-				servings: 5,
-			},
-			ingredients: "asd",
-			procedures: "asa",
+	useEffect(() => {
+		Services.serviceGetAll().then((recipeBook) => {
+			setRecipeBook(recipeBook);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (delRecipe !== null) {
+			alert(JSON.stringify("Recipe Deleted"));
+			Services.serviceDelete(delRecipe.id,).then((response) => {
+				console.log("Recipe Deleted");
+				setDelRecipe(null);
+			});
 		}
 	}, [delRecipe]);
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Add Recipe
-	const handleNewRecipe = (newRecipe) => {
 
-		axios
-			.post(url, newRecipeForm)
-			.then( response => {
-				console.log( response )
-				setRecipeBook( recipe.concat(response.data) )
-				setNewRecipe('')
-			})
-	}
+	const handleNewRecipe = (event) => {
 
-	const handleRecipeBookChange = ( event ) => {
-		setRecipeBook(event.target.value);
-		console.log(event.target.value);
+		const newRecipe = { ...{ "id": recipe.length + 1 }, ...event };
+		// alert(JSON.stringify(newRecipe));
+
+		Services.serviceCreate(newRecipe).then((response) => {
+			console.log(response);
+			setRecipeBook(recipe.concat(response.data));
+			setAddRecipe(null);
+		});
 	};
 
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Return
 	return (
 		<PageCSS>
-			<TitleCSS> Recipe Book {} </TitleCSS>
+			<TitleCSS> Recipe Book </TitleCSS>
 			<TwoColumnCSS>
 				<ComponentHeadBar
 					_searchRecipe={ searchRecipe }
@@ -145,13 +93,13 @@ export default function App () {
 			</TwoColumnCSS>
 			<NewRecipe>
 				{ addRecipe && (
-					<form onSubmit = { addRecipeDB }>
-						<button type="form" onChange={handleRecipeBookChange}>Save</button>
-					</form>
-					// <ComponentAddRecipe
-					// 	_newRecipe = { newRecipe }
-					// 	_setNewRecipe ={ ( newRecipe ) => setNewRecipe( newRecipe ) }
-				)}
+					< ComponentAddRecipe
+						_register={ register }
+						_field={ field }
+						_onSubmit={ (event) => handleNewRecipe(event) }
+						_handleSubmit={ (event) => handleSubmit(event) }
+					/>
+				) }
 			</NewRecipe>
 			<>
 				{ selectedItem && (
@@ -160,11 +108,12 @@ export default function App () {
 			</>
 			<TwoColumnCSS>
 				<ComponentListRecipes
-					_recipe = { recipe }
-					_state = { state }
-					_setSelectedItem = { ( recipe ) => setSelectedItem( recipe ) } 
+					_recipe={ recipe }
+					_searchRecipe={ searchRecipe }
+					_setSelectedRecipe={ (event) => setSelectedRecipe(event) }
+					_setDelRecipe={ (event) => setDelRecipe(event) }
 				/>
 			</TwoColumnCSS>
 		</PageCSS >
 	);
-};
+}

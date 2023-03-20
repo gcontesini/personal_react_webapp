@@ -1,5 +1,4 @@
 import ComponentIngredients from "./ComponentIngredients";
-import ComponentSummary from "./ComponentSummary";
 import ComponentProcedures from "./ComponentProcedures";
 
 export default function ComponentSelectedItem({
@@ -20,7 +19,10 @@ export default function ComponentSelectedItem({
 				</thead>
 				<tbody>
 					<tr>
-						<ComponentSummary _summary={ _recipe.summary } />
+						<td>
+							<li>Cook time:{ _recipe.cook_time } min</li>
+							<li>Servings:{ _recipe.servings }</li>
+						</td>
 						<ComponentIngredients
 							key={ _recipe.ingredients.toString() }
 							_ingredients={ _recipe.ingredients }
